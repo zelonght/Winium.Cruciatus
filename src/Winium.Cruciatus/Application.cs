@@ -66,6 +66,17 @@
         }
 
         /// <summary>
+        /// Get exit state of launched application
+        /// </summary>
+        /// <returns>
+        /// true if it's already exit, false if it's still running
+        /// </returns>
+        public bool HasExited()
+        {
+            return this.process.HasExited;
+        }
+        
+        /// <summary>
         /// Убивает приложение.
         /// </summary>
         /// <returns>
@@ -112,6 +123,29 @@
             this.process = Process.Start(info);
         }
 
+        /// <summary>
+        /// Update process property by process name
+        /// </summary>
+        /// <param name="processName">Launched application process name</param>
+        /// <returns>true if launched process is successfully update. false if there is error occurs</returns>
+        public void UpdateProcessByName(string processName)
+        {
+            if (String.IsNullOrEmpty(processName))
+            {
+                return;
+            }
+
+            var processList = Process.GetProcessesByName(processName);
+            if (processList.Length == 1)
+            {
+                this.process = processList[0];
+            }
+            else if (processList.Length > 1)
+            {
+                // TBD: Need general solution to get running process from list for various applications
+            }
+            return;
+        }
         #endregion
     }
 }

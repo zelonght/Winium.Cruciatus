@@ -1,8 +1,12 @@
 ﻿# Change Log
 
 <!--## Unreleased-->
+## v2.10.1
 
-## v2.10.0
+- Provide a way to update application process by a known process name
+
+
+## v2.10.0
 
 - Add `RotationManager` for get and set display orientation (thanks to @jonstoneman)
 
