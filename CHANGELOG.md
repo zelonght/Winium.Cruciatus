@@ -3,10 +3,9 @@
 <!--## Unreleased-->
 ## v2.10.1
 
-- Provide a way to update application process by a known process name
+- Add `GetChildPrecesses`, `GetProcessId`, `HasExited`, `Close(Process child)`, `Kill` to interact with child process to fix issue close/quit application
 
-
-## v2.10.0
+## v2.10.0
 
 - Add `RotationManager` for get and set display orientation (thanks to @jonstoneman)
 
