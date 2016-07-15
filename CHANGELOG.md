@@ -3,9 +3,10 @@
 <!--## Unreleased-->
 ## v2.10.1
 
-- Add `GetChildPrecesses`, `GetProcessId`, `HasExited`, `Close(Process child)`, `Kill` to interact with child process to fix issue close/quit application
+- Add `GetChildPrecesses`, `GetProcessId`, `HasExited`, `Close(Process child)`, `Kill` to interact with child process
 
-## v2.10.0
+
+## v2.10.0
 
 - Add `RotationManager` for get and set display orientation (thanks to @jonstoneman)
 
