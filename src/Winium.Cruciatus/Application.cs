@@ -5,6 +5,8 @@
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Collections.Generic;
+    using System.Management;
 
     using Winium.Cruciatus.Exceptions;
 
@@ -66,6 +68,28 @@
         }
 
         /// <summary>
+        /// Close child process
+        /// </summary>
+        /// <param name="child">Input child process to close</param>
+        /// <returns>
+        /// true if successfully close, otherwise return fail.
+        /// </returns>
+        public bool Close(Process child)
+        {
+            child.CloseMainWindow();
+            return child.WaitForExit(CruciatusFactory.Settings.WaitForExitTimeout);
+        }
+
+        /// <summary>
+        /// Return process id of application.
+        /// </summary>
+        /// <returns>Process id</returns>
+        public int GetProcessId()
+        {
+            return this.process.Id;
+        }
+
+        /// <summary>
         /// Get exit state of launched application
         /// </summary>
         /// <returns>
@@ -86,6 +110,19 @@
         {
             this.process.Kill();
             return this.process.WaitForExit(CruciatusFactory.Settings.WaitForExitTimeout);
+        }
+
+        /// <summary>
+        /// Kill child process
+        /// </summary>
+        /// <param name="child">Input child process to kill</param>
+        /// <returns>
+        /// true if successfully kill, otherwise return false
+        /// </returns>
+        public bool Kill(Process child)
+        {
+            child.Kill();
+            return child.WaitForExit(CruciatusFactory.Settings.WaitForExitTimeout);
         }
 
         /// <summary>
@@ -124,28 +161,25 @@
         }
 
         /// <summary>
-        /// Update process property by process name
+        /// Get all children processes of parent one bases on its id.
         /// </summary>
-        /// <param name="processName">Launched application process name</param>
-        /// <returns>true if launched process is successfully update. false if there is error occurs</returns>
-        public void UpdateProcessByName(string processName)
+        /// <param name="parentId">Input parent process id</param>
+        /// <returns></returns>
+        public List<Process> GetChildPrecesses(int parentId)
         {
-            if (String.IsNullOrEmpty(processName))
+            var query = "Select * From Win32_Process Where ParentProcessId = "
+                    + parentId;
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+            ManagementObjectCollection processList = searcher.Get();
+            List<Process> result = new List<Process>();
+            foreach (ManagementObject mo in processList)
             {
-                return;
+                result.Add(Process.GetProcessById(Convert.ToInt32(mo["ProcessID"])));
             }
 
-            var processList = Process.GetProcessesByName(processName);
-            if (processList.Length == 1)
-            {
-                this.process = processList[0];
-            }
-            else if (processList.Length > 1)
-            {
-                // TBD: Need general solution to get running process from list for various applications
-            }
-            return;
+            return result;
         }
+        
         #endregion
     }
 }

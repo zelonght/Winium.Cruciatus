@@ -3,7 +3,7 @@
 <!--## Unreleased-->
 ## v2.10.1
 
-- Provide a way to update application process by a known process name
+- Add `GetChildPrecesses`, `GetProcessId`, `HasExited`, `Close(Process child)`, `Kill` to interact with child process
 
 
 ## v2.10.0
